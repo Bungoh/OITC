@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +13,6 @@ public class Game {
 
     private Arena arena;
     private Set<AlivePlayer> alivePlayers;
-    private Set<Spectator> spectators;
     private HashMap<AlivePlayer, Integer> killMap;
     private int scoreLimit;
 
@@ -28,9 +26,6 @@ public class Game {
 
         //Initialize the Players
         initializePlayers();
-
-        //Create empty spectator HashSet
-        spectators = new HashSet<>();
 
         //Get Score Limit
         scoreLimit = Config.getScoreLimit();
@@ -72,13 +67,16 @@ public class Game {
 
     public void cleanup() {
         //cleanup the game
+        if (alivePlayers != null) {
+            for (AlivePlayer p : alivePlayers) {
+                p.cleanup();
+            }
+        }
     }
 
     public void removePlayer(Player player) {
         if (isAlivePlayer(player)) {
             removeAlivePlayer(player);
-        } else { // is spectator
-            removeSpectator(player);
         }
 
         if (alivePlayers.size() == 1) {
@@ -100,21 +98,6 @@ public class Game {
         }
     }
 
-    private void removeSpectator(Player player) {
-        if (spectators != null) {
-            Spectator del = null;
-            for (Spectator s : spectators) {
-                if (s.player.equals(player)) {
-                    s.cleanup();
-                    del = s;
-                }
-            }
-            if (del != null) {
-                spectators.remove(del);
-            }
-        }
-    }
-
     private boolean isAlivePlayer(Player player) {
         if (alivePlayers == null) {
             return false;
@@ -129,4 +112,11 @@ public class Game {
         return false;
     }
 
+    public AlivePlayer getAlivePlayer(Player player) {
+        return alivePlayers.stream().filter(p -> p.player.equals(player)).findAny().orElse(null);
+    }
+
+    public Arena getArena() {
+        return arena;
+    }
 }
