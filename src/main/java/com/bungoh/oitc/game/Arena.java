@@ -1,9 +1,10 @@
 package com.bungoh.oitc.game;
 
+import com.bungoh.oitc.OITC;
+import com.bungoh.oitc.files.Config;
 import com.bungoh.oitc.files.Data;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -34,6 +35,7 @@ public class Arena {
         //Set lobby location
         lobbyLocation = Data.getLobbyLocation();
         //Set Spawn Locations
+        spawnLocations = new ArrayList<>();
         spawnLocations.addAll(Data.getArenaSpawns(name));
         //Set Game State
         state = GameState.RECRUITING;
@@ -50,7 +52,66 @@ public class Arena {
     }
 
     public void reset() {
+        //Load the Chunk
+        world.loadChunk(lobbyLocation.getChunk());
+        //Reset Players and Clean them Up
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            resetPlayer(player);
+            player.teleport(lobbyLocation);
+        }
+        players.clear();
 
+        //Reset Arena State
+        state = GameState.RECRUITING;
+        countdown = new Countdown(this);
+        if (game != null) {
+            game.cleanup();
+        }
+        game = new Game(this);
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player.getUniqueId());
+        player.teleport(lobbyLocation);
+        sendMessage(Config.getPrefix() + " " + player.getName() + ChatColor.GREEN + " has joined.");
+
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        player.getInventory().clear();
+        player.setGameMode(GameMode.SURVIVAL);
+
+        if (players.size() >= Config.getRequiredPlayers()) {
+            countdown.begin();
+        }
+    }
+
+    public void removePlayer(Player player) {
+        resetPlayer(player);
+        player.teleport(lobbyLocation);
+        players.remove(player.getUniqueId());
+
+        if (state == GameState.LIVE) {
+            game.removePlayer(player);
+        }
+
+        if (state == GameState.COUNTDOWN && players.size() < Config.getRequiredPlayers()) {
+            reset();
+        }
+    }
+
+    public void resetPlayer(Player player) {
+        if (player.isDead()) {
+            player.spigot().respawn();
+        }
+
+        player.getInventory().clear();
+        player.setHealth(20);
+        player.setFoodLevel(20);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(OITC.getPlugin(), player);
+        }
     }
 
     public void setReady(boolean ready) {
@@ -81,5 +142,9 @@ public class Arena {
         for (UUID uuid : players) {
             Bukkit.getPlayer(uuid).sendMessage(message);
         }
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 }

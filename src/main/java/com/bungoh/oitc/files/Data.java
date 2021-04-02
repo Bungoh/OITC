@@ -165,7 +165,7 @@ public class Data {
     public static boolean checkArenaSetupCompletion(String name) {
         if (arenaExists(name)) {
             String basePath = "arenas." + name + ".";
-            if (config.get("arenas.lobby-spawn") == null || config.get(basePath + ".spawns") == null) {
+            if (config.get("lobby-spawn") == null || config.get(basePath + ".spawns") == null) {
                 return false;
             }
             return true;

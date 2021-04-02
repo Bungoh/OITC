@@ -1,7 +1,6 @@
 package com.bungoh.oitc.game;
 
 import com.bungoh.oitc.files.Data;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

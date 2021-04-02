@@ -15,6 +15,8 @@ public enum Messages {
     ARENA_CREATED("messages.arena_created"),
     ARENA_SPAWN_ADDED("messages.arena_spawn_added"),
     ARENA_REMOVED("messages.arena_removed"),
+    ARENA_NOT_RECRUITING("messages.arena_not_recruiting"),
+    ARENA_ALREADY_INGAME("messages.arena_already_ingame"),
     UNEXPECTED_ERROR("messages.unexpected_error");
 
     private String path;

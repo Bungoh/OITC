@@ -16,4 +16,6 @@ messages:
   arena_created: "&aThe arena has been successfully created!"
   arena_spawn_added: "&aYou successfully added an arena spawn location!"
   arena_removed: "&aYou successfully removed the arena!"
+  arena_not_recruiting: "&aThat game is not recruiting! You can't join!"
+  arena_already_ingame: "&cYou are already in a game!"
   unexpected_error: "&cAn unexpected error has occurred!"

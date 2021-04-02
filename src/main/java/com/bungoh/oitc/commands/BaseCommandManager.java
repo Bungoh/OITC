@@ -1,5 +1,8 @@
 package com.bungoh.oitc.commands;
 
+import com.bungoh.oitc.commands.basesubcommands.ArenaJoinCommand;
+import com.bungoh.oitc.commands.basesubcommands.ArenaLeaveCommand;
+import com.bungoh.oitc.commands.basesubcommands.ArenaListCommand;
 import com.bungoh.oitc.files.Config;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,6 +18,9 @@ public class BaseCommandManager implements CommandExecutor {
 
     public BaseCommandManager() {
         subcommands = new ArrayList<>();
+        subcommands.add(new ArenaJoinCommand());
+        subcommands.add(new ArenaLeaveCommand());
+        subcommands.add(new ArenaListCommand());
     }
 
     @Override
