@@ -1,0 +1,13 @@
+name: OITC
+version: ${project.version}
+main: com.bungoh.oitc.OITC
+api-version: 1.16
+authors: [ Bungoh ]
+description: One in the Chamber plugin developed by Bungoh
+
+commands:
+  oitc:
+    description: Base OITC command
+  oitcadmin:
+    description: Admin OITC command
+    aliases: [oa]

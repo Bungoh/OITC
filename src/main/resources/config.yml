@@ -1,0 +1,19 @@
+# One in the Chamber by Bungoh
+required-players: 2
+countdown-timer: 10
+score-limit: 20
+
+prefix: "&7[&cOITC&7]"
+
+messages:
+  lobby_location_set: "&aThe lobby location was successfully set!"
+  arena_does_not_exist: "&cThat arena does not exist!"
+  arena_already_exists: "&cAn arena with that name already exists!"
+  arena_not_setup: "&cThat arena is not completely setup yet"
+  arena_ready: "&aThe arena is &eready!"
+  arena_not_ready: "&aThe arena is &enot ready!"
+  arena_not_editable: "&cThe arena is currently &eready. &cYou can't do that!"
+  arena_created: "&aThe arena has been successfully created!"
+  arena_spawn_added: "&aYou successfully added an arena spawn location!"
+  arena_removed: "&aYou successfully removed the arena!"
+  unexpected_error: "&cAn unexpected error has occurred!"
