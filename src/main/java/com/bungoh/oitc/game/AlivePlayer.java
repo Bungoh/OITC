@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -123,6 +124,14 @@ public class AlivePlayer extends GameParticipant {
                     .getArena()
                     .getSpawnLocations()
                     .get((int) (Math.random() * game.getArena().getSpawnLocations().size())));
+        }
+
+        @EventHandler
+        public void onAlivePlayerLeave(PlayerQuitEvent e) {
+            if (!e.getPlayer().equals(player)) {
+                return;
+            }
+            game.getArena().removePlayer(e.getPlayer());
         }
 
         private void addArrows(Player player) {

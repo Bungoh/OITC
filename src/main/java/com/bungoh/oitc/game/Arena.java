@@ -5,6 +5,7 @@ import com.bungoh.oitc.files.Config;
 import com.bungoh.oitc.files.Data;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -102,6 +103,9 @@ public class Arena {
         if (player.isDead()) {
             player.spigot().respawn();
         }
+
+        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 
         player.getInventory().clear();
         player.setHealth(20);

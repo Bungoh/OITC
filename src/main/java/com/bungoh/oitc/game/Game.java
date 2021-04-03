@@ -5,6 +5,7 @@ import com.bungoh.oitc.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,6 +51,7 @@ public class Game {
                 player.teleport(arena.getSpawnLocations().get(0));
             }
         }
+        buildScoreboard();
     }
 
     public void addKill(AlivePlayer player) {
@@ -57,6 +59,8 @@ public class Game {
         if (currScore + 1 == scoreLimit) {
             gameEnd(player);
         }
+
+        player.player.getScoreboard().getTeam(player.getName()).setSuffix(ChatColor.WHITE.toString() + (currScore + 1));
 
         killMap.replace(player, currScore + 1);
     }
@@ -115,6 +119,48 @@ public class Game {
         }
 
         return false;
+    }
+
+    private void buildScoreboard() {
+
+        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective obj = board.registerNewObjective("oitc-ingame", "oitc-ingame", "OITC");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        int i = 0;
+        for (AlivePlayer ap : alivePlayers) {
+            Team t = board.registerNewTeam(ap.player.getName());
+            t.addEntry(ChatColor.values()[i].toString());
+            t.setPrefix(ChatColor.YELLOW + ap.player.getName() + ": ");
+            t.setSuffix(ChatColor.WHITE + killMap.get(ap).toString());
+            obj.getScore(ChatColor.values()[i].toString()).setScore(i);
+
+            ap.player.setScoreboard(board);
+            i++;
+        }
+
+        /*
+        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+
+        Objective obj = board.registerNewObjective("test", "dummy", "OITC");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        Score playerName = obj.getScore(ChatColor.YELLOW + "IGN: " + player.getName());
+        playerName.setScore(1);
+
+        Score blank = obj.getScore(" ");
+        blank.setScore(2);
+
+        Team currentKills = board.registerNewTeam("kills");
+        currentKills.addEntry(ChatColor.AQUA.toString());
+        currentKills.setPrefix(ChatColor.YELLOW + "Bungoh: ");
+        currentKills.setSuffix(killMap.get(getAlivePlayer(player)).toString());
+        obj.getScore(ChatColor.AQUA.toString()).setScore(3);
+
+
+
+        player.setScoreboard(board);
+         */
     }
 
     public AlivePlayer getAlivePlayer(Player player) {
