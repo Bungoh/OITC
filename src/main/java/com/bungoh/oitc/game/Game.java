@@ -138,29 +138,6 @@ public class Game {
             ap.player.setScoreboard(board);
             i++;
         }
-
-        /*
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-
-        Objective obj = board.registerNewObjective("test", "dummy", "OITC");
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-
-        Score playerName = obj.getScore(ChatColor.YELLOW + "IGN: " + player.getName());
-        playerName.setScore(1);
-
-        Score blank = obj.getScore(" ");
-        blank.setScore(2);
-
-        Team currentKills = board.registerNewTeam("kills");
-        currentKills.addEntry(ChatColor.AQUA.toString());
-        currentKills.setPrefix(ChatColor.YELLOW + "Bungoh: ");
-        currentKills.setSuffix(killMap.get(getAlivePlayer(player)).toString());
-        obj.getScore(ChatColor.AQUA.toString()).setScore(3);
-
-
-
-        player.setScoreboard(board);
-         */
     }
 
     public AlivePlayer getAlivePlayer(Player player) {
