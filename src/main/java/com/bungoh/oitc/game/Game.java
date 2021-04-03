@@ -1,5 +1,6 @@
 package com.bungoh.oitc.game;
 
+import com.bungoh.oitc.OITC;
 import com.bungoh.oitc.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -61,8 +62,13 @@ public class Game {
     }
 
     public void gameEnd(AlivePlayer winner) {
-        Bukkit.broadcastMessage(Config.getPrefix() + " " + ChatColor.YELLOW + winner.getName() + ChatColor.GREEN + " just won in " + ChatColor.YELLOW + arena.getName() + ChatColor.GREEN + "!");
-        arena.reset();
+        Bukkit.getScheduler().runTaskLater(OITC.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.broadcastMessage(Config.getPrefix() + " " + ChatColor.YELLOW + winner.getName() + ChatColor.GREEN + " just won in " + ChatColor.YELLOW + arena.getName() + ChatColor.GREEN + "!");
+                arena.reset();
+            }
+        }, 2L);
     }
 
     public void cleanup() {
@@ -80,8 +86,7 @@ public class Game {
         }
 
         if (alivePlayers.size() == 1) {
-            Bukkit.broadcastMessage(Config.getPrefix() + " " + ChatColor.GREEN + "The game in " + ChatColor.YELLOW + arena.getName() + ChatColor.GREEN + " ended with no winner.");
-            arena.reset();
+            gameEnd((AlivePlayer) alivePlayers.toArray()[0]);
         }
     }
 

@@ -52,8 +52,6 @@ public class Arena {
     }
 
     public void reset() {
-        //Load the Chunk
-        world.loadChunk(lobbyLocation.getChunk());
         //Reset Players and Clean them Up
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
