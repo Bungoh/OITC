@@ -122,19 +122,19 @@ public class Game {
     }
 
     private void buildScoreboard() {
-
         Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective obj = board.registerNewObjective("oitc-ingame", "oitc-ingame", "OITC");
+        Objective obj = board.registerNewObjective("oitc-ingame",
+                "oitc-ingame",
+                ChatColor.translateAlternateColorCodes('&', "&c&lOITC"));
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         int i = 0;
         for (AlivePlayer ap : alivePlayers) {
             Team t = board.registerNewTeam(ap.player.getName());
             t.addEntry(ChatColor.values()[i].toString());
-            t.setPrefix(ChatColor.YELLOW + ap.player.getName() + ": ");
+            t.setPrefix(ChatColor.GREEN + ap.player.getName() + ": ");
             t.setSuffix(ChatColor.WHITE + killMap.get(ap).toString());
             obj.getScore(ChatColor.values()[i].toString()).setScore(i);
-
             ap.player.setScoreboard(board);
             i++;
         }
